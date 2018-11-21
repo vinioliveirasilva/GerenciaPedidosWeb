@@ -1,0 +1,19 @@
+Definir as telas
+	Tela Cadastro (Empresa/Usuario) - (Empresa) OK, Usuario - A definir
+	Tela Gerencia Chamados (Usuario) - Ok
+		Filtro (Status, Empresa, Prioridade, Data_Inicial) (Descendente ou Ascendente)
+			Filtrar por propriedade (mostrar somente os itens que tem essa propriedade)
+			Filtrar do menor para o maior (vise versa) (Mostrar todos os itens)
+	Tela Detalhes de chamado (Usuario)
+		Ao fazer um comentario, terá uma caixa de seleção para definir se aquele comentario ira aparecer para o cliente (empresa) na tela de Gerencia Chamado (Empresa)
+	Tela Gerencia Chamados (Empresa)
+	Tela Cadastro Chamado (Empresa)
+
+Definir os dados necessarios no banco de dados
+	Tela Cadastro (Empresa/Usuario)
+	Tela Gerencia Chamados (Usuario)
+	Tela Detalhes de chamado (Usuario)
+	Tela Gerencia Chamados (Empresa)
+	Tela Cadastro Chamado (Empresa)
+implementar backend
+implementar frontend
