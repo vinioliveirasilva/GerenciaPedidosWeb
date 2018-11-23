@@ -3,6 +3,13 @@
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	    <script type="text/javascript">
+	    	var chamados = [];
+			var StatusColor = Object.freeze({0:"gray" ,1:"red", 2:"blue", 3:"green", 4:"#BF9000"}); //Cores do status dos chamados
+			var StatusText = Object.freeze({0:"Indeterminado" ,1:"Em aberto", 2:"Em progresso", 3:"Concluido", 4:"Interrompido"});
+			var PrioridadeColor = Object.freeze({0:"gray", 1:"green", 2:"red"});
+			var PrioridadeText = Object.freeze({0:"baixa", 1:"media", 2:"alta"});
+	    </script>>
 	<style type="text/css">
 		div.status {
 		    position: absolute;
@@ -95,8 +102,29 @@
 				<div class="col s12" style="background-color: #000055">
 					<p style="color: white; text-align: center; height: 25px">Chamados</p>
 				</div>
-				<div id="sucesso" class="col s6" style="background-color: white;height: 95%;overflow-y: scroll;">
-					<!-- bloco dos chamados  -->
+
+				<div class="col s6" style="background-color: white;height: 95%;overflow-y: scroll;">
+					<div id="myBtnContainer" style="outline: 3px; outline-color: blue; outline-style: solid; padding: 10px; margin-top: 10px;">
+					  <button class="btn active" style="width: 100%; margin-bottom: 10px; margin-top: 10px" onclick="resetFilter()">Mostrar todos</button>
+					  <select class="filtroStatus" style="display: inline-flex;margin-bottom: 10px;" onchange="filterSelection()">
+						<option value="-1">Selecione o status</option>
+					  	<option value="1">Em Aberto</option>
+					  	<option value="2">Em Progresso</option>
+					  	<option value="3">Concluido</option>
+					    <option value="0">Indeterminado</option>
+					</select>
+					  <select class="filtroPrioridade" style="display: inline-flex;margin-bottom: 10px;" onchange="filterSelection()">
+						<option value="-1">Selecione a prioridade</option>
+					  	<option value="0">Baixa</option>
+					  	<option value="1">Media</option>
+					  	<option value="2">Alta</option>
+					</select>
+					<div class="busca">
+						<input id="filtro" onkeyup="filterSelection()" type="text" placeholder="Buscar texto...">
+					</div>
+					</div>
+						
+					<div id="sucesso"><!-- bloco dos chamados  --></div>
 				</div>
 
 				<div class="col s6"style="background-color: darkgray;height: 95%"/>
@@ -113,15 +141,41 @@
         </div>
 	</body>
 	<script>
+
+	function filterSelection()
+	{
+		var filter, i;
+		p = document.getElementsByClassName("filtroPrioridade");
+		s = document.getElementsByClassName("filtroStatus");
+
+        filter = document.getElementById("filtro").value.toUpperCase();
+        Prioridade = p.item(p.selectedIndex).value;
+        Status = s.item(s.selectedIndex).value;
+
+        for (i = 0; i < chamados.length; i++) {
+            if ((chamados[i].Status == Status || Status == -1) && (chamados[i].Prioridade == Prioridade || Prioridade == -1) && (chamados[i].Titulo.toUpperCase().indexOf(filter) > -1 || chamados[i].Problema.toUpperCase().indexOf(filter) > -1)) {
+                chamados[i].Show = true;
+            } 
+            else {
+                chamados[i].Show = false;
+            }
+        }
+        atualizaChamados();
+	}
+
+	function resetFilter()
+	{
+		for (i = 0; i < chamados.length; i++)
+			chamados[i].Show = true;
+
+		atualizaChamados();
+	}
+
 	function getChamados() {
 
-		var chamados = [];
-		var StatusColor = Object.freeze({0:"gray" ,1:"red", 2:"blue", 3:"green", 4:"#BF9000"}); //Cores do status dos chamados
-		var StatusText = Object.freeze({0:"Indeterminado" ,1:"Em aberto", 2:"Em progresso", 3:"Concluido", 4:"Interrompido"});
-		var PrioridadeColor = Object.freeze({0:"gray", 1:"green", 2:"red"});
-		var PrioridadeText = Object.freeze({0:"baixa", 1:"media", 2:"alta"});
+		chamados = [];
 
-        $.getJSON("http://localhost:50000/api/chamado", function(data){
+        $.getJSON("http://localhost:8081/api/chamado", function(data){
 
         	$.each(data, function(i, object){
         		chamados.push({
@@ -131,7 +185,8 @@
 					    Status: object.Status,
 					    Prioridade: object.Prioridade,
 					    Data_Abertura: object.Data_Abertura,
-					    Data_Fechamento: object.Data_Fechamento
+					    Data_Fechamento: object.Data_Fechamento,
+					    Show: true
     			});
         	});
 
@@ -139,7 +194,16 @@
 			    return a.Id - b.Id;
 			})
 
-			for (var i = 0; i < chamados.length; i++ ) {
+			atualizaChamados();
+		})
+    };
+
+    function atualizaChamados()
+    {
+    	document.getElementById("sucesso").innerHTML = "";
+
+    	for (var i = 0; i < chamados.length; i++ ) {
+			if(chamados[i].Show == true)
 			    document.getElementById("sucesso").innerHTML += 
 			    		'<div class="card" style="border-color:'+ StatusColor[chamados[i].Status] +';"> '+
 			    		'<div class="status"><b>' + StatusText[chamados[i].Status] + '</b></div>'  + 
@@ -150,40 +214,7 @@
 							    '</div>'+
 						    '</div>';
 			}
-		})
     };
 	</script>
 <script>getChamados();</script>
-
-<script>
-	function getFuncionarios() {
-
-		var funcionarios = [];
-
-        $.getJSON("http://localhost:50000/api/funcionario", function(data){
-
-        	$.each(data, function(i, object){
-        		funcionarios.push({
-        				Cpf: object.Cpf,
-    					Nome: object.Nome,
-					    TelCel: object.TelCel,
-					    End: object.End
-    			});
-        	});
-		})
-
-		for (var i = 0; i < chamados.length; i++ ) {
-		    document.getElementById("sucesso").innerHTML += 
-		    		'<div class="card" style="border-color:'+ StatusColor[chamados[i].Status] +';"> '+
-		    		'<div class="status"><b>' + StatusText[chamados[i].Status] + '</b></div>'  + 
-		    		'<div class="prioridade">prioridade ' + PrioridadeText[chamados[i].Prioridade] + '</div>' +
-					    '<div class="card-content black-text">' + 
-						    '<span class="card-title"> <span class="step">ID - ' + chamados[i].Id + '</span>  <b>Cliente: '+ chamados[i].Titulo + '</b></span> '+
-					    	'<div class="block-with-text"><b> Problema:</b> ' + chamados[i].Problema +'</div>' + 
-						    '</div>'+
-					    '</div>';
-		}
-
-    };
-</script>
 </html>

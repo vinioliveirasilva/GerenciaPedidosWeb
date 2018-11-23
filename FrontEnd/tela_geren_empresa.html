@@ -4,95 +4,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <style type="text/css">
-	
-         div.card {
-            background-color: white;
-            border-style: none;
-            border-width: 30px 3px 20px 3px;
-            height: 200px;
-        }
+    <link rel="stylesheet" type="text/css" href="layout.css">
 
-        span.step {
-			font-weight: bold;
-            border-radius: 0.4em;
-            -moz-border-radius: 0.4em;
-            -webkit-border-radius: 0.4em;
-            display: inline-block;
-            line-height: 2em;
-            margin-right: 5px;
-            width: 10em;
-            font-size: 20;
-        }
-		
-		.card-content-black-text{
-			border-style: solid;
-			border-color:black;
-			margin: 10px;
-			padding: 8px;
-		}
-
-        /* Button used to open the contact form - fixed at the bottom of the page */
-        .open-button {
-			position:absolute;
-			top: 2px; 
-            background-color: #555;
-            color: white;
-            padding: 16px 20px;
-            border: none;
-            cursor: pointer;
-			float: right;
-            opacity: 0.8;
-            right: 16.7%;
-            width: 280px;
-        }
-
-        /* The popup form - hidden by default */
-        .form-popup {
-            display: none;
-            border: 3px solid #f1f1f1;
-            background-color: white;
-        }
-
-        /* Add styles to the form container */
-        .form-container {
-            padding: 10px;
-            background-color: white;
-        }
-
-        /* Full-width input fields */
-        .form-container input[type=text], .form-container input[type=password] {
-            border: none;
-            background: #f1f1f1;
-        }
-
-        /* When the inputs get focus, do something */
-        .form-container input[type=text]:focus, .form-container input[type=password]:focus {
-             background-color: #ddd;
-             outline: none;
-        }
-
-        /* Set a style for the submit/login button */
-       .form-container .btn {
-             background-color: #4CAF50;
-             color: white;
-             border: none;
-             cursor: pointer;
-             width: 100%;
-             margin-bottom: 10px;
-             opacity: 0.8;
-       }
-
-       /* Add a red background color to the cancel button */
-      .form-container .cancel {
-            background-color: red;
-      }
-
-    /* Add some hover effects to buttons */
-    .form-container .btn:hover, .open-button:hover {
-        opacity: 1;
-    }
-    </style>
 </header>
 <body>
     <div class="container">
@@ -104,7 +17,7 @@
                 <!-- bloco das empresas  -->
             </div>
 
-            <div class="col s6"style="background-color: darkgray;height: 95%"/>
+            <div class="col s6" id="formTelaEmpresa" style="background-color: darkgray;height: 95%"/>
                 <button class="open-button" onclick="openForm()">Cadastrar Empresa</button>
                 <div class="form-popup" id="myForm">
                     <form onsubmit="return registraCliente()" class="form-container">
@@ -113,8 +26,8 @@
                         <input id="cliName" type="text" placeholder="Nome da empresa" required>
                         <input id="cliCnpj" type="text" maxlength="11"  placeholder="CNPJ" required>
 
-                        <input id="cliTelEmp" type="text" style="display: block;" maxlength="12"  placeholder="Tel. primário" required> 
-                        <input id="cliTelCel" type="text" style="display: block;" maxlength="13"  placeholder="Tel. secundário" required>
+                        <input id="cliTelEmp" type="text" maxlength="12"  placeholder="Tel. primário" required> 
+                        <input id="cliTelCel" type="text" maxlength="13"  placeholder="Tel. secundário" required>
 
                         <input id="cliEmail" type="text" placeholder="E-mail" required>
                         <input id="cliCont" type="text" placeholder="Contato(Responsável)" required>
@@ -123,8 +36,8 @@
                         <input id="cliPass" type="password" placeholder="Senha" required>
                         <input id="cliPass2" type="password" placeholder="Confirmar senha" required>
 
-                        <button type="submit" class="btn" style="display: block; text-align:center;">Cadastrar</button>
-                        <button type="button" class="btn cancel" onclick="closeForm()" style="display: block; text-align:center;">Fechar</button>
+                        <button type="submit" class="btn" style="text-align:center;">Cadastrar</button>
+                        <button type="button" class="btn cancel" onclick="closeForm()" style="text-align:center;">Fechar</button>
                     </form>
                 </div>
             </div>
@@ -222,7 +135,7 @@
         }
 
         $.ajax({
-            url: 'http://localhost:50000/api/cliente',
+            url: 'http://localhost:8081/api/cliente',
             type: 'post',
             dataType: 'text',
             contentType: 'application/json',
@@ -241,7 +154,7 @@
 
 		var cliente = [];
 
-        $.getJSON("http://localhost:50000/api/cliente", function(data){
+        $.getJSON("http://localhost:8081/api/cliente", function(data){
 
         	$.each(data, function(i, object){
         		cliente.push({

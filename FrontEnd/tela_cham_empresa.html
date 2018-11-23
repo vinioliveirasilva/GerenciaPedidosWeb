@@ -1,168 +1,12 @@
-﻿<html>
+<html>
 <header>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <style type="text/css">
-		div.status {
-		    position: absolute;
-		    top: -25px;
-		    width: 100%;
-		    color: white;
-		    text-align: center;
-		}
-	
-         div.card {
-            background-color: white;
-            border-style: none;
-            border-width: 30px 3px 20px 3px;
-            height: 200px;
-        }
-		
-        span.step {
-			font-weight: bold;
-            border-radius: 0.4em;
-            -moz-border-radius: 0.4em;
-            -webkit-border-radius: 0.4em;
-            display: inline-block;
-            line-height: 2em;
-            margin-right: 5px;
-            width: 10em;
-            font-size: 20;
-        }
-		
-		.card-content-black-text{
-			border-style: solid;
-			border-color:black;
-			margin: 10px;
-			padding: 8px;
-		}
-		
-        /* styles for '...' */
-        .block-with-text {
-            /* hide text if it more than N lines  */
-            overflow: hidden;
-            /* for set '...' in absolute position */
-            position: relative;
-            /* use this value to count block height */
-            line-height: 1.2em;
-            /* max-height = line-height (1.2) * lines max number (3) */
-            max-height: 4.8em;
-            /* fix problem when last visible word doesn't adjoin right side  */
-            text-align: justify;
-            /* place for '...' */
-            margin-right: -1em;
-            padding-right: 1em;
-        }
-            /* create the ... */
-            .block-with-text:before {
-                /* points in the end */
-                content: '...';
-                /* absolute position */
-                position: absolute;
-                /* set position to right bottom corner of block */
-                right: 0;
-                bottom: 0;
-            }
-            /* hide ... if we have text, which is less than or equal to max lines */
-            .block-with-text:after {
-                /* points in the end */
-                content: '';
-                /* absolute position */
-                position: absolute;
-                /* set position to right bottom corner of text */
-                right: 0;
-                /* set width and height */
-                width: 1em;
-                height: 1em;
-                margin-top: 0.2em;
-                /* bg color = bg color under block */
-                background: white;
-            }
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        /* Button used to open the contact form - fixed at the bottom of the page */
-        .open-button {
-			position:absolute;
-			top: 80px; 
-            background-color: #555;
-            color: white;
-            padding: 16px 20px;
-            border: none;
-            cursor: pointer;
-			float: right;
-            opacity: 0.8;
-            right: 250px;
-            width: 280px;
-        }
-
-        /* The popup form - hidden by default */
-        .form-popup {
-            display: none;
-            position: fixed;
-            top: 80px;
-			right: 210px;
-            border: 3px solid #f1f1f1;
-            cursor: pointer;
-			float: right;
-			width: 420px;
-            z-index: 9;
-        }
-
-        /* Add styles to the form container */
-        .form-container {
-            max-width: 500px;
-            padding: 8px;
-            background-color: white;
-        }
-
-        /* Full-width input fields */
-        .form-container input[type=text], .form-container input[type=password] {
-             width: 100%;
-             padding: 8px;
-             margin: 5px;
-             border: none;
-             background: #f1f1f1;
-        }
-
-        /* When the inputs get focus, do something */
-        .form-container input[type=text]:focus, .form-container input[type=password]:focus {
-             background-color: #ddd;
-             outline: none;
-        }
-
-        /* Set a style for the submit/login button */
-       .form-container .btn {
-             background-color: #4CAF50;
-             color: white;
-             padding: 16px 20px;
-             border: none;
-             cursor: pointer;
-             width: 100%;
-             margin-bottom: 10px;
-             opacity: 0.8;
-       }
-
-       /* Add a red background color to the cancel button */
-      .form-container .cancel {
-            background-color: red;
-      }
-
-        /* Add some hover effects to buttons */
-           .form-container .btn:hover, .open-button:hover {
-            opacity: 1;
-		}
-		
-
-    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="layout.css">
 </header>
 <head>
+
 </head>
 <body>
     <div class="container">
@@ -177,32 +21,28 @@
 				</div>
 			</div>
 
-            <div class="col s6" style="background-color: darkgray;height: 95%" />
-        </div>
-    </div>
+            <div class="col s6"  id="formTelaChamEmpresa" style="background-color: darkgray;height: 95%">
+                <button class="open-button" onclick="openForm()">Abrir chamado</button>
+                <div class="form-popup" id="myForm">
+                    <form onsubmit="return registraChamado()" class="form-container">
+                        <h1 style="text-align: center; font-size:20px;"> Abrir chamado</h1>
+                        
+                        <label for="data" style="font-size:20px;">Data de abertura:</label>
+                        <input type="text" id="theDate" disabled>
+                        
+                        <label for="Titulo" style="font-size:20px;">Título:</label>
+                        <input id="chamTitulo" type="text" placeholder="Título" required>
+                        
+                        <label for="Problema" rows="5" style="font-size:20px">Problema:</label>
+                        <textarea id="chamProb" placeholder="Problema" cols="40" rows="5" required></textarea>
 
-    <button class="open-button" onclick="openForm()">Abrir chamado</button>
-    <div class="form-popup" id="myForm">
-        <form onsubmit="return registraChamado()" class="form-container">
-            <h1 style="text-align: center; font-size:20px;" > Abrir chamado</h1>
-			
-			<label for="data" style="font-size:20px;">Data de abertura:</label>
-			<input type="text" id="theDate" disabled>
-			
-			<label for="Titulo" style="font-size:20px;">Título:</label>
-            <input id="chamTitulo" type="text" placeholder="Título" required>
-			
-			<label for="Problema" style="font-size:20px">Problema:</label>
-            <input id="chamProb" type="text" placeholder="Problema" required>
-
-			<div class="botao" style="display: flex; flex-direction: row;">
-			<label for="submit" style="display: block;"></label>
-            <button type="submit" value="submit" class="btn"  style="max-width:220px; display: block; padding: 7px; text-align:center;">Enviar</button>
-            <label for="cancel" style="display: block;"></label>
-			<button type="button" class="btn cancel" onclick="closeForm()" style="max-width:220px; display: block; padding: 7px; text-align:center;">Fechar</button>
-			</div>
-        </form>
+                        <button type="submit" value="submit" class="btn"  style="text-align:center;">Enviar</button>
+                        <button type="button" class="btn cancel" onclick="closeForm()" style="text-align:center;">Fechar</button>
+                    </form>
+                </div>
+            </div>
     </div>
+</div>
 
     <div class="container col s6" style="background-color: #000055; height: 55px; padding: 1px; position:fixed; bottom:0; ">
         <div class="container" style="text-align: center;">
@@ -214,21 +54,21 @@
 </body>
 
 <script>
-
-function myFunction() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("filtro");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("sucesso");
-    li = ul.getElementsByClassName("card-content-black-text");
-    for (i = 0; i < li.length; i++) {
-        if (li[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
+    function myFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("filtro");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("sucesso");
+        li = ul.getElementsByClassName("card-content-black-text");
+        for (i = 0; i < li.length; i++) {
+            if (li[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } 
+            else {
+                li[i].style.display = "none";
+            }
         }
-    }
-}
+    };
 
 
 	$(document).ready(function() {
@@ -254,15 +94,15 @@ function myFunction() {
             myForm.chamTitulo.focus();
             return false;
         }
-    }
+    };
 
     function openForm() {
         document.getElementById("myForm").style.display = "block";
-    }
+    };
 
     function closeForm() {
         document.getElementById("myForm").style.display = "none";
-    }
+    };
 
     function registraChamado() {
         var chamTitulo = document.getElementById("chamTitulo").value;
@@ -276,7 +116,7 @@ function myFunction() {
         }
 
         $.ajax({
-            url: 'http://localhost:50000/api/chamado',
+            url: 'http://localhost:8081/api/chamado',
             type: 'post',
             dataType: 'text',
             contentType: 'application/json',
@@ -296,7 +136,7 @@ function myFunction() {
 		var chamado = [];
 		var StatusText = Object.freeze({0:"Indeterminado" ,1:"Em aberto", 2:"Em progresso", 3:"Concluido", 4:"Interrompido"});
 
-        $.getJSON("http://localhost:50000/api/chamado", function(data){
+        $.getJSON("http://localhost:8081/api/chamado", function(data){
 
         	$.each(data, function(i, object){
         		chamado.push({
