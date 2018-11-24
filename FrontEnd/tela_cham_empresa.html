@@ -24,17 +24,17 @@
             <div class="col s6"  id="formTelaChamEmpresa" style="background-color: darkgray;height: 95%">
                 <button class="open-button" onclick="openForm()">Abrir chamado</button>
                 <div class="form-popup" id="myForm">
-                    <form onsubmit="return registraChamado()" class="form-container">
+                    <form id="myForm" name="myForm" method="post" onsubmit="return validar()" class="form-container">
                         <h1 style="text-align: center; font-size:20px;"> Abrir chamado</h1>
                         
                         <label for="data" style="font-size:20px;">Data de abertura:</label>
                         <input type="text" id="theDate" disabled>
                         
                         <label for="Titulo" style="font-size:20px;">Título:</label>
-                        <input id="chamTitulo" type="text" placeholder="Título" required>
+                        <input id="chamTitulo" type="text" placeholder="Título"/>
                         
                         <label for="Problema" rows="5" style="font-size:20px">Problema:</label>
-                        <textarea id="chamProb" placeholder="Problema" cols="40" rows="5" required></textarea>
+                        <textarea id="chamProb" placeholder="Problema" cols="40" rows="5"></textarea>
 
                         <button type="submit" value="submit" class="btn"  style="text-align:center;">Enviar</button>
                         <button type="button" class="btn cancel" onclick="closeForm()" style="text-align:center;">Fechar</button>
@@ -86,14 +86,19 @@
 	});
 
      function validar() {
-        var chamTitulo = myForm.chamTitulo.value;
-        var chamProb = myForm.chamProb.value;
-		
-        if (chamTitulo == "" || chamTitulo.length < 2) {
-            alert('Coloque um título!');
-            myForm.chamTitulo.focus();
-            return false;
-        }
+        if(document.myForm.chamTitulo.value=="" || document.myForm.chamTitulo.value.length < 5){
+			alert( "Especificar o TITULO!" );
+			document.myForm.chamTitulo.focus();
+			return false;
+		}
+		if(document.myForm.chamProb.value=="" || document.myForm.chamProb.value.length < 7){
+			alert( "Especificar o PROBLEMA!" );
+			document.myForm.chamProb.focus();
+			return false;
+		}
+		else{
+		return registraChamado();
+		}
     };
 
     function openForm() {

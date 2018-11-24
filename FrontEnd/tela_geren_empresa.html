@@ -19,22 +19,22 @@
 
             <div class="col s6" id="formTelaEmpresa" style="background-color: darkgray;height: 95%"/>
                 <button class="open-button" onclick="openForm()">Cadastrar Empresa</button>
-                <div class="form-popup" id="myForm">
-                    <form onsubmit="return registraCliente()" class="form-container">
+                <div class="form-popup" id="myForm" name="myForm">
+                    <form name="myForm" id="myForm" method="post" onsubmit="return validar()" class="form-container">
                         <h1 style="text-align: center; font-size:20px;" >Cadastrar Empresa  </h1>
 
-                        <input id="cliName" type="text" placeholder="Nome da empresa" required>
-                        <input id="cliCnpj" type="text" maxlength="11"  placeholder="CNPJ" required>
+                        <input id="cliName" type="text" placeholder="Nome da empresa"/><span id="msg1"></span>
+                        <input id="cliCnpj" type="text" maxlength="18"  OnKeyPress="formatar('##.###.###/####-##', this)" placeholder="CNPJ"/>
 
-                        <input id="cliTelEmp" type="text" maxlength="12"  placeholder="Tel. primário" required> 
-                        <input id="cliTelCel" type="text" maxlength="13"  placeholder="Tel. secundário" required>
+                        <input id="cliTelEmp" type="text" maxlength="12" OnKeyPress="formatar('##-####-####', this)" placeholder="Tel. primário (Ex: 99-9999-9999)"/> 
+                        <input id="cliTelCel" type="text" maxlength="13" OnKeyPress="formatar('##-#####-####', this)" placeholder="Tel. secundário (Ex: 99-99999-9999)"/>
 
-                        <input id="cliEmail" type="text" placeholder="E-mail" required>
-                        <input id="cliCont" type="text" placeholder="Contato(Responsável)" required>
-                        <input id="cliEnd" type="text" placeholder="Endereço" required>
+                        <input id="cliEmail" type="text" placeholder="E-mail"/>
+                        <input id="cliCont" type="text" placeholder="Contato(Responsável)"/>
+                        <input id="cliEnd" type="text" placeholder="Endereço"/>
 
-                        <input id="cliPass" type="password" placeholder="Senha" required>
-                        <input id="cliPass2" type="password" placeholder="Confirmar senha" required>
+                        <input id="cliPass" type="password" placeholder="Senha"/>
+                        <input id="cliPass2" type="password" placeholder="Confirmar senha"/>
 
                         <button type="submit" class="btn" style="text-align:center;">Cadastrar</button>
                         <button type="button" class="btn cancel" onclick="closeForm()" style="text-align:center;">Fechar</button>
@@ -64,49 +64,52 @@
         }
     }
 
-    function validar() {
-        var cliName = myForm.cliName.value;
-        var cliCnpj = myForm.cliCnpj.value;
-        var cliTel = myForm.cliTel1.value;
-		var cliTel2 = myForm.cliTel2.value;
-        var cliEmail = myForm.cliEmail.value;
-		var cliCont = myForm.cliCont.value;
-        var cliEnd = myForm.cliEnd.value;
-
-        if (cliName == "" || cliName.length < 2) {
-            alert('Preencha seu nome!');
-            myForm.cliName.focus();
-            return false;
+    function validar() {        
+        if(document.myForm.cliName.value=="" || document.myForm.cliName.value.length < 4){
+			alert( "Preencha campo NOME corretamente!" );
+			document.myForm.cliName.focus();
+			return false;
+		}
+		if(document.myForm.cliCnpj.value=="" || document.myForm.cliCnpj.value.length < 11){
+			alert( "Preencha campo CNPJ corretamente!" );
+			document.myForm.cliCnpj.focus();
+			return false;
+		}
+		if(document.myForm.cliTelEmp.value=="" || document.myForm.cliTelEmp.value.length < 12){
+			alert( "Preencha campo Telefone corretamente!" );
+			document.myForm.cliTelEmp.focus();
+			return false;
+		}
+		if(document.myForm.cliTelCel.value=="" || document.myForm.cliTelCel.value.length < 13){
+			alert( "Preencha campo TELEFONE corretamente!" );
+			document.myForm.cliTelCel.focus();
+			return false;
+		}
+		if(document.myForm.cliEmail.value=="" || document.myForm.cliEmail.value.indexOf('@')==-1 || document.myForm.cliEmail.value.indexOf('.')==-1){
+			alert( "Preencha campo EMAIL corretamente!" );
+			document.myForm.cliEmail.focus();
+			return false;
+		}
+		if(document.myForm.cliCont.value=="" || document.myForm.cliCont.value.length < 4){
+			alert( "Preencha campo CONTATO corretamente!" );
+			document.myForm.cliCont.focus();
+			return false;
+		}
+		if(document.myForm.cliEnd.value=="" || document.myForm.cliEnd.value.length < 4){
+			alert( "Preencha campo ENDEREÇO corretamente!" );
+			document.myForm.cliEnd.focus();
+			return false;
+		}
+		if(document.myForm.cliPass.value != document.myForm.cliPass2.value || document.myForm.cliPass.value=="" || document.myForm.cliPass2.value=="" ){ 
+             alert("SENHAS DIFERENTES! DIGITAR SENHAS IGUAIS");
+             return false;
         }
-        if (cliTel1 == "" || cliTel1.length < 13) {
-            alert('Preencha o telefone!');
-            myForm.cliTel1.focus();
-            return false;
-        }
-        if (cliTel2 == "" || cliTel1.length < 13) {
-            alert('Preencha o telefone!');
-            myForm.cliTel2.focus();
-            return false;
-        }
-        if (cliCnpj == "" || cliCnpj.length < 14) {
-            alert('Preencha o CNPJ!');
-            myForm.cliCnpj.focus();
-            return false;
-        }
-        if (cliEmail == "" || cliEmail.length < 6) {
-            alert('Preencha um email válido!');
-            myForm.cliEmail.focus();
-            return false;
-        }
-        if (document.forms[0].cliEmail.value == ""
-            || document.forms[0].cliEmail.value.indexOf('@') == -1
-            || document.forms[0].cliEmail.value.indexOf('.') == -1) {
-            alert("Por favor, informe um E-MAIL válido!");
-            return false;
-        }
+		else{
+		return registraCliente();
+		}
     }
-
-    function openForm() {
+	
+	function openForm() {
         document.getElementById("myForm").style.display = "block";
     }
 
