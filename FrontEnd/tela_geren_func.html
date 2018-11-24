@@ -51,6 +51,23 @@
 </body>
 
 <script>
+    function removeCE(value)
+    {
+        var listaParaRemover = ['.',',','/','\\','-'];
+
+        for(var item in listaParaRemover)
+        {
+            var location = value.indexOf(listaParaRemover[item]);
+            while(location > -1)
+            {
+                value = value.replace(listaParaRemover[item], "");
+                location = value.indexOf(listaParaRemover[item]);
+            }
+        }
+
+        return value;
+    }
+
     function formatar(mascara, documento) {
         var i = documento.value.length;
         var saida = mascara.substring(0, 1);
@@ -106,8 +123,8 @@
 
     function registraFuncionario() {
         var funcName = document.getElementById("funcName").value;
-        var funcCpf = document.getElementById("funcCpf").value;
-        var funcTel = document.getElementById("funcTel").value;
+        var funcCpf = removeCE(document.getElementById("funcCpf").value);
+        var funcTel = removeCE(document.getElementById("funcTel").value);
         var funcEmail = document.getElementById("funcEmail").value;
         var funcEnd = document.getElementById("funcEnd").value;
         var funcPass = document.getElementById("funcPass").value;

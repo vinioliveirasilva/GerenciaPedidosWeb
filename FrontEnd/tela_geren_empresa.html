@@ -23,7 +23,7 @@
                     <form name="myForm" id="myForm" method="post" onsubmit="return validar()" class="form-container">
                         <h1 style="text-align: center; font-size:20px;" >Cadastrar Empresa  </h1>
 
-                        <input id="cliName" type="text" placeholder="Nome da empresa"/><span id="msg1"></span>
+                        <input id="cliName" type="text" placeholder="Nome da empresa"/>
                         <input id="cliCnpj" type="text" maxlength="18"  OnKeyPress="formatar('##.###.###/####-##', this)" placeholder="CNPJ"/>
 
                         <input id="cliTelEmp" type="text" maxlength="12" OnKeyPress="formatar('##-####-####', this)" placeholder="Tel. primário (Ex: 99-9999-9999)"/> 
@@ -117,11 +117,28 @@
         document.getElementById("myForm").style.display = "none";
     }
 
+    function removeCE(value)
+    {
+        var listaParaRemover = ['.',',','/','\\','-'];
+
+        for(var item in listaParaRemover)
+        {
+            var location = value.indexOf(listaParaRemover[item]);
+            while(location > -1)
+            {
+                value = value.replace(listaParaRemover[item], "");
+                location = value.indexOf(listaParaRemover[item]);
+            }
+        }
+
+        return value;
+    }
+
     function registraCliente() {
         var cliName = document.getElementById("cliName").value;
-        var cliCnpj = document.getElementById("cliCnpj").value;
-        var cliTelEmp = document.getElementById("cliTelEmp").value;
-		var cliTelCel = document.getElementById("cliTelCel").value;
+        var cliCnpj = removeCE(document.getElementById("cliCnpj").value);
+        var cliTelEmp = removeCE(document.getElementById("cliTelEmp").value);
+		var cliTelCel = removeCE(document.getElementById("cliTelCel").value);
         var cliEmail = document.getElementById("cliEmail").value;
 		var cliCont = document.getElementById("cliCont").value;
         var cliEnd = document.getElementById("cliEnd").value;
