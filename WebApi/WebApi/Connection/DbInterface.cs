@@ -40,13 +40,13 @@ namespace WebApi.Connection
             return true;
         }
 
-        public static IEnumerable<T> Get<T>(this T value, OracleConnection conn, int? PkValue = null)
+        public static IEnumerable<T> Get<T>(this T value, OracleConnection conn, long? PkValue = null, string OPkName = null)
         {
             Type Table = value.GetType();
             var PkName = Table.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(AttributeType))).First().Name;
 
             var toReturn = new List<T> { };
-            string sql = $"select * from { Table.Name }{ (PkValue != null ? $" Where {PkName} = {PkValue}" : string.Empty) }";
+            string sql = $"select * from { Table.Name }{ (PkValue != null ? $" Where { (OPkName == string.Empty ? PkName : OPkName)} = {PkValue}" : string.Empty) }";
 
             using (var cmd = new OracleCommand(sql, conn))
             {
@@ -73,7 +73,7 @@ namespace WebApi.Connection
             return toReturn;
         }
 
-        public static bool Update<T>(this T value, OracleConnection conn, int? PkValue = null)
+        public static bool Update<T>(this T value, OracleConnection conn, long? PkValue = null)
         {
             Type Table = value.GetType();
             var properties = Table.GetProperties();
@@ -103,7 +103,7 @@ namespace WebApi.Connection
             return true;
         }
 
-        public static bool Delete<T>(this T value, OracleConnection conn, int? PkValue = null)
+        public static bool Delete<T>(this T value, OracleConnection conn, long? PkValue = null)
         {
             Type Table = value.GetType();
             var PkName = Table.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(AttributeType))).First().Name;

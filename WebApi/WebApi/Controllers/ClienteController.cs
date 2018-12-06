@@ -22,7 +22,7 @@ namespace WebApi.Controllers
         }
 
         // GET api/<controller>/5
-        public IEnumerable<Cliente> Get(int id)
+        public IEnumerable<Cliente> Get(long id)
         {
             var toReturn = new Cliente().Get(DbConnection.GetInstance(), id);
 
@@ -30,21 +30,51 @@ namespace WebApi.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]Cliente value)
+        public bool Post([FromBody]Cliente value)
         {
-            value.Insert(DbConnection.GetInstance());
+            try
+            {
+                value.Insert(DbConnection.GetInstance());
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]Cliente value)
+        public bool Put(long id, [FromBody]Cliente value)
         {
-            value.Update(DbConnection.GetInstance(), id);
+            try
+            {
+                value.Update(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public bool Delete(long id)
         {
-            var toDelete = new Cliente().Delete(DbConnection.GetInstance(), id);
+            try
+            {
+                var toDelete = new Cliente().Delete(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
     }
 }

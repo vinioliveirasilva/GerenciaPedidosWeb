@@ -11,5 +11,8 @@ namespace WebApi.Models
         [AttributeType(PrimaryKey = true)]
         public string Id { get; set; }
         public string Nome { get; set; }
+        public string Senha { get; set; }
+        public int Tipo { get; set; } 
+        public int Classe { get; set; }
     }
 }

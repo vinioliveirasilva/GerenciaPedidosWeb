@@ -19,7 +19,7 @@ namespace WebApi.Controllers
         }
 
         // GET api/<controller>/5
-        public IEnumerable<Usuario> Get(int id)
+        public IEnumerable<Usuario> Get(long id)
         {
             var toReturn = new Usuario().Get(DbConnection.GetInstance(), id);
 
@@ -27,21 +27,54 @@ namespace WebApi.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]Usuario value)
+        public bool Post([FromBody]Usuario value)
         {
-            value.Insert(DbConnection.GetInstance());
+            try
+            {
+                value.Senha = System.Web.Helpers.Crypto.SHA256(value.Senha);
+                value.Nome = value.Nome.ToLower();
+
+                value.Insert(DbConnection.GetInstance());
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]Usuario value)
+        public bool Put(long id, [FromBody]Usuario value)
         {
-            value.Update(DbConnection.GetInstance(), id);
+            try
+            {
+                value.Update(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public bool Delete(long id)
         {
-            var toDelete = new Usuario().Delete(DbConnection.GetInstance(), id);
+            try
+            {
+                var toDelete = new Usuario().Delete(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
     }
 }

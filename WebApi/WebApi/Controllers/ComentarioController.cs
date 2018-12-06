@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         }
 
         // GET api/<controller>/5
-        public IEnumerable<Comentario> Get(int id)
+        public IEnumerable<Comentario> Get(long id)
         {
             var toReturn = new Comentario().Get(DbConnection.GetInstance(), id);
 
@@ -26,21 +26,51 @@ namespace WebApi.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]Comentario value)
+        public bool Post([FromBody]Comentario value)
         {
-            value.Insert(DbConnection.GetInstance());
+            try
+            {
+                value.Insert(DbConnection.GetInstance());
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]Comentario value)
+        public bool Put(long id, [FromBody]Comentario value)
         {
-            value.Update(DbConnection.GetInstance(), id);
+            try
+            {
+                value.Update(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public bool Delete(long id)
         {
-            var toDelete = new Comentario().Delete(DbConnection.GetInstance(), id);
+            try
+            {
+                var toDelete = new Comentario().Delete(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
     }
 }

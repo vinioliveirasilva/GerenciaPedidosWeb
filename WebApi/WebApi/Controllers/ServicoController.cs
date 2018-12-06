@@ -22,7 +22,7 @@ namespace WebApi.Controllers
         }
 
         // GET api/<controller>/5
-        public IEnumerable<Servico> Get(int id)
+        public IEnumerable<Servico> Get(long id)
         {
             var toReturn = new Servico().Get(DbConnection.GetInstance(), id);
 
@@ -30,21 +30,51 @@ namespace WebApi.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]Servico value)
+        public bool Post([FromBody]Servico value)
         {
-            value.Insert(DbConnection.GetInstance());
+            try
+            {
+                value.Insert(DbConnection.GetInstance());
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]Servico value)
+        public bool Put(long id, [FromBody]Servico value)
         {
-            value.Update(DbConnection.GetInstance(), id);
+            try
+            {
+                value.Update(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public bool Delete(long id)
         {
-            var toDelete = new Servico().Delete(DbConnection.GetInstance(), id);
+            try
+            {
+                var toDelete = new Servico().Delete(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
     }
 }

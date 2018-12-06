@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         }
 
         // GET api/<controller>/5
-        public IEnumerable<Funcionario> Get(int id)
+        public IEnumerable<Funcionario> Get(long id)
         {
             var toReturn = new Funcionario().Get(DbConnection.GetInstance(), id);
 
@@ -26,21 +26,51 @@ namespace WebApi.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]Funcionario value)
+        public bool Post([FromBody]Funcionario value)
         {
-            value.Insert(DbConnection.GetInstance());
+            try
+            {
+                value.Insert(DbConnection.GetInstance());
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]Funcionario value)
+        public bool Put(long id, [FromBody]Funcionario value)
         {
-            value.Update(DbConnection.GetInstance(), id);
+            try
+            {
+                value.Update(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public bool Delete(long id)
         {
-            var toDelete = new Funcionario().Delete(DbConnection.GetInstance(), id);
+            try
+            {
+                var toDelete = new Funcionario().Delete(DbConnection.GetInstance(), id);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+
         }
     }
 }
