@@ -6,7 +6,7 @@ alter session set "_ORACLE_SCRIPT"=true;
 /* CREATE TABLE COMMANDS */
 
 CREATE TABLE Cliente (
-	Cnpj varchar(11) NOT NULL
+	Cnpj varchar(14) NOT NULL
 	,EmpEnd varchar(100)
     ,EmpNome varchar(100) NOT NULL
     ,TelCel varchar(13)
@@ -26,9 +26,11 @@ CREATE TABLE Funcionario (
 )
 
 CREATE TABLE Usuario (
-	Id varchar(11) NOT NULL
+	Id varchar(14) NOT NULL
 	,Nome varchar(50) NOT NULL
 	,Senha varchar(256) NOT NULL
+	,Tipo int NOT NULL
+	,Classe int NOT NULL
 	,PRIMARY KEY(Id)
 )
 

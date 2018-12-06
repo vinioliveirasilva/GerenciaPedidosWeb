@@ -1,5 +1,6 @@
 ﻿<html>
 <header>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -9,11 +10,10 @@
 </header>
 <body>
     <div class="container">
-        <div class="row" style="height: 90%">
+        <div class="row" style="height: 95%">
             <div class="col s12" style="background-color: #000055">
                 <p style="color: white; text-align: center; height: 25px">Empresas</p>
-				<a href="tela_geren_func.html" target="_self" style="border:10px solid #e6e6e6; background-color:#e6e6e6;text-align:center; color:black">VOLTAR</a>
-			</div>
+            </div>
             <div id="sucesso" class="col s6" style="background-color: white;height: 95%;overflow-y: scroll;">
                 <!-- bloco das empresas  -->
             </div>
@@ -135,6 +135,73 @@
         return value;
     }
 
+    function deleteCliente(cnpj)
+    {
+        $.ajax({
+            url: 'http://apiengsoft.ddns.net:8081/api/cliente/'+cnpj,
+            type: 'delete',
+            success: function (result) {
+                if(result != "false")
+                {
+                    return deleteUsuario(cnpj);
+                }
+                else
+                {
+                    alert("Não foi possivel deletar o cliente.");
+                }
+            }
+        });
+    };
+
+    function deleteUsuario(cnpj)
+    {
+        $.ajax({
+            url: 'http://apiengsoft.ddns.net:8081/api/usuario/'+cnpj,
+            type: 'delete',
+            success: function (result) {
+                if(result != "false")
+                {
+                    alert("Funcionario deletado!");
+                    getFuncionario();
+                }
+                else
+                {
+                    alert("Não foi possivel deletar o cliente.");
+                }
+            }
+        });
+    };
+
+    function registraUsuario(user, name, password, type, rank)
+    {
+        var User = {
+            Id: user,
+            Nome: name,
+            Senha: password,
+            Tipo: type,
+            Classe: rank
+        }
+
+        $.ajax({
+            url: 'http://apiengsoft.ddns.net:8081/api/usuario',
+            type: 'post',
+            dataType: 'text',
+            contentType: 'application/json',
+            success: function (data) {
+                if(data != "false")
+                {
+                    alert("Empresa registrada");
+                    closeForm();
+                }
+            },
+            error: function(data)
+            {
+                alert("Não foi possivel cadastrar a empresa, tente novamente mais tarde");
+            },
+            data: JSON.stringify(User)
+        });
+    }
+
     function registraCliente() {
         var cliName = document.getElementById("cliName").value;
         var cliCnpj = removeCE(document.getElementById("cliCnpj").value);
@@ -156,14 +223,23 @@
         }
 
         $.ajax({
-            url: 'http://localhost:8081/api/cliente',
+            url: 'http://apiengsoft.ddns.net:8081/api/cliente',
             type: 'post',
             dataType: 'text',
             contentType: 'application/json',
             success: function (data) {
-                alert("Empresa registrada");
-                closeForm();
-                document.location.reload(true);
+                if(data != "false")
+                {
+                    return registraUsuario(cliCnpj, cliName, cliPass, 2, 1);
+                }
+                else
+                {
+                    alert("Não foi possivel cadastrar a empresa, tente novamente mais tarde");
+                }
+            },
+            error: function(data)
+            {
+                alert("Não foi possivel cadastrar a empresa, tente novamente mais tarde");
             },
             data: JSON.stringify(cli)
         });
@@ -175,7 +251,7 @@
 
 		var cliente = [];
 
-        $.getJSON("http://localhost:8081/api/cliente", function(data){
+        $.getJSON("http://apiengsoft.ddns.net:8081/api/cliente", function(data){
 
         	$.each(data, function(i, object){
         		cliente.push({
@@ -197,11 +273,33 @@
 								'<div class="block-with-text"><b>Tel.primário:</b> ' + cliente[i].TelEmp + '</div>'+
 								'<div class="block-with-text"><b>Tel.secundário:</b> ' + cliente[i].TelCel + '</div>'+
 								'<div class="block-with-text"><b>E-mail: </b>'+ cliente[i].Email + '</div>'+
-								'<button id="removerDiv" type="button">Deletar</button>'+
+								'<button id="removerDiv" onclick="return deleteCliente('+ cliente[i].Cnpj +')" type="button">Deletar</button> <button id="removerDiv1" onclick="return alteraCliente('+ cliente[i].Cnpj +')" type="button">Alterar</button>'+
 							 '</div>';
 			}
 		})
     };
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    };
+
+    if(getCookie("Autorized") == "" || getCookie("Type") != 1)
+    {
+        alert("Você não tem acesso a essa area, contate o administrador");
+        window.location.replace('./index.html');
+    }
 </script>
 <script>getCliente();</script>
 </html>

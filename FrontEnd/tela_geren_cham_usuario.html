@@ -1,5 +1,6 @@
 <html>
 	<header>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -11,22 +12,47 @@
 			var PrioridadeText = Object.freeze({0:"baixa", 1:"media", 2:"alta"});
 	    </script>>
 	<style type="text/css">
-		div.status {
-		    position: absolute;
-		    top: -25px;
-		    width: 100%;
-		    color: white;
-		    text-align: center;
-		}
+    div.prioridade {
+      position: absolute;
+        top: 148px;
+        width: 100%;
+        color: white;
+        text-align: center;
+        font-size: 15;
+    }
+        div.status {
+        position: absolute;
+        top: -25px;
+        width: 100%;
+        color: white;
+        text-align: center;
+    }
+.leave-button {
+      position:absolute;
+      top: 2px; 
+            background-color: #555;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+      float: right;
+            opacity: 0.8;
+            right: 77%;
+            width: 120;
+            top: 25px;
+        }
 
-		div.prioridade {
-			position: absolute;
-		    top: 148px;
-		    width: 100%;
-		    color: white;
-		    text-align: center;
-		    font-size: 15;
-		}
+        .empr-button {
+            right: 16.7%;
+            width: 120;
+            top: 25px;
+        }
+
+        .func-button {
+            right: 23.5%;
+            width: 120;
+            top: 25px;
+        }
 
 		div.card {
 			background-color:white;
@@ -93,17 +119,12 @@
 
 	</style>
 	</header>
-	<head>
-		
-	</head>
 	<body>
 		<div class="container">
-			<div class="row" style="height: 90%">
+			<div class="row">
 				<div class="col s12" style="background-color: #000055">
 					<p style="color: white; text-align: center; height: 25px">Chamados</p>
-					<a href="tela_geren_func.html" target="_self" style="border:10px solid #e6e6e6; background-color:#e6e6e6;text-align:center; color:black">VOLTAR</a>
 				</div>
-
 				<div class="col s6" style="background-color: white;height: 95%;overflow-y: scroll;">
 					<div id="myBtnContainer" style="outline: 3px; outline-color: blue; outline-style: solid; padding: 10px; margin-top: 10px;">
 					  <button class="btn active" style="width: 100%; margin-bottom: 10px; margin-top: 10px" onclick="resetFilter()">Mostrar todos</button>
@@ -129,6 +150,62 @@
 				</div>
 
 				<div class="col s6"style="background-color: darkgray;height: 95%"/>
+				<button class="leave-button" onclick="Logout()">Sair</button>
+				<button class="leave-button func-button" onclick="window.location.href = './tela_geren_func.html';">Funcionarios</button>
+				<button class="leave-button empr-button" onclick="window.location.href = './tela_geren_empresa.html';">Empresas</button>
+				<div style="margin: 20px; background-color: white">
+					<div class="row" style="padding: 40px">
+						<div class="col s5">
+							<div class="row">
+								<span class="step" style="width: 100%">ID - 128</span>
+							</div>
+							<div class="row">
+								<h5>Titulo - Problema no servidor</h5>
+							</div>
+							<div class="row">
+								<div>Status:<b> Em Progresso </b></div>
+							</div>
+							<div class="row">
+								<div>Prioridade:<b> Em Progresso </b></div>
+							</div>
+
+						</div>
+						<div class="col s7" style="padding-left: 40px">
+							<div class="row">
+								<div><h5>Cliente:<b> Google</b></h5></div>
+							</div>
+							<div class="row">
+								<div>Endereço:<b> Av. Brasil, 57 - Bairro X</b></div>
+							</div>
+							<div class="row">
+								<div>Cnpj:<b> 62.478.776/0001-79</b></div>
+							</div>
+							<div class="row">
+								<div>Telefone:<b> (11) 98765-4321</b></div>
+							</div>
+							<div class="row">
+								<div>Email:<b> Email@cliente.com</b></div>
+							</div>
+							<div class="row">
+								<div>Data Abertura:<b> 27/11/2018</b></div>
+							</div>
+						</div>
+						<div class="col 12s" >
+								<div>Responsavel:<b> Tecnico Fulano de Tal (Não definido)</b></div><br><br>
+
+								<div><b>Problema:</b> Vamos supor que, em determinado dia, o sistema não funcione na fábrica. A paralisação do serviço é um incidente e deve ser tratado com o máximo de urgência. Imediatamente, descobre-se que não está havendo tráfego no link principal.
+
+A solução de contorno é comutar para a rota alternativa. Isso feito, o sistema é restabelecido e as operações são reparadas. Mas a grande questão é: o que causou o incidente? Qual o motivo de aquele link não estar respondendo? Qual foi o problema?</div><br><br>
+								<div><b>Diagnostico:</b> A tecnologia faz parte da rotina de sua empresa? É bem provável que você tenha respondido “sim” a essa pergunta, afinal, é praticamente impossível encontrar uma empresa que não utilize qualquer solução tecnológica em sua rotina.
+
+E isso nos leva a outra pergunta: você sabe o que é diagnóstico de TI e porque essa avaliação pode ser de suma importância para o sucesso de seu empreendimento? Se você respondeu que “não”, tudo bem. Explicamos tudo neste post.
+
+Desde já, vale saber que esse diagnóstico de tecnologia, além de contribuir para a redução de riscos, contribui para o aumento da segurança e da produtividade e, ainda, para a melhoria do desempenho da empresa. Continue a leitura para saber mais!</div>
+						</div>
+
+
+					</div>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -176,7 +253,7 @@
 
 		chamados = [];
 
-        $.getJSON("http://localhost:8081/api/chamado", function(data){
+        $.getJSON("http://apiengsoft.ddns.net:8081/api/chamado", function(data){
 
         	$.each(data, function(i, object){
         		chamados.push({
@@ -216,6 +293,45 @@
 						    '</div>';
 			}
     };
+
+    function getCookie(cname) {
+	    var name = cname + "=";
+	    var decodedCookie = decodeURIComponent(document.cookie);
+	    var ca = decodedCookie.split(';');
+	    for(var i = 0; i <ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0) == ' ') {
+	            c = c.substring(1);
+	        }
+	        if (c.indexOf(name) == 0) {
+	            return c.substring(name.length, c.length);
+	        }
+		}
+    	return "";
+	};
+
+	    function Logout()
+    {
+        setCookie("User", "", 20);
+          setCookie("Type", -1, 20);
+          setCookie("Autorized", "false", 20);
+          setCookie("Rank", -1, 20);
+        window.location.replace('./index.html');
+    }
+
+    function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ",path=/";
+}
+
+	if(getCookie("Autorized") == "" || getCookie("Type") != 1)
+	{
+		alert("Você não tem acesso a essa area, contate o administrador");
+		window.location.replace('./index.html');
+	}
 	</script>
+
 <script>getChamados();</script>
 </html>

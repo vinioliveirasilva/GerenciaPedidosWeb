@@ -1,3 +1,12 @@
+
+    div.prioridade {
+      position: absolute;
+        top: 148px;
+        width: 100%;
+        color: white;
+        text-align: center;
+        font-size: 15;
+    }
         div.status {
         position: absolute;
         top: -25px;
@@ -44,6 +53,20 @@
             opacity: 0.8;
             right: 16.7%;
             width: 280px;
+        }
+
+         .leave-button {
+      position:absolute;
+      top: 2px; 
+            background-color: #555;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+      float: right;
+            opacity: 0.8;
+            right: 77%;
+            width: 120;
         }
 
         /* The popup form - hidden by default */
